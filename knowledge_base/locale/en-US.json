@@ -1,0 +1,20 @@
+{
+ "actionButton_description": "Open the knowledge base", 
+ "add_new_category": "Add New Category", 
+ "add_to_KD": "Add to the knowledge base", 
+ "message_yesNoDialog_change_directory": "Do you want to change default directory ?", 
+ "pn_category_b_cancelB": "Cancel", 
+ "pn_category_b_saveB": "Save", 
+ "pn_category_l_categoryName": "Name Category:", 
+ "pn_category_l_isNotDetailed": "Without details?:", 
+ "pn_category_l_isOnlyText": "Only text? :", 
+ "pn_entry_b_cancelB": "Cancel", 
+ "pn_entry_b_saveB": "Save", 
+ "pn_entry_l_comments": "Comments:", 
+ "pn_entry_l_isTimeStamp": "Time stamp:", 
+ "pn_entry_l_isUrlTitle": "Title as URL on original page? :", 
+ "pn_entry_l_title": "Title:", 
+ "pn_listcategory_empty": "The category list is empty", 
+ "title_select_folder": "Folder for storage of knowledge base", 
+ "title_yesNoDialog_change_directory": "Add to the Knowledge base"
+}
