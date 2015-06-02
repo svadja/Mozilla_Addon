@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title></title>
+        <style type="text/css">
+            body{
+                background-color: #D8D8D8;
+            }
+
+            .content {
+                width: 960px;
+                margin: 10px auto;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                right: 0px;
+                bottom: 0px;
+
+            }
+            #entries {
+                background-color:white;
+                width: 960px;
+                border-collapse: collapse;
+            }
+            #entries tr td {
+                padding: 0px;
+            }
+
+
+            .e_header{
+                border-collapse: collapse;
+                width: 100%;
+                border: 2px solid #8C4646;
+            }
+
+
+            .e_header_1 {
+                background-color: #8C4646;
+                min-width: 175px;
+                width: 175px;
+            }
+            .e_time {
+                margin-left: 5px;
+                width: 100%;
+                height: 100%;
+            }
+
+            .e_header_2 {
+                width: 100%;
+            }
+            .e_title{
+                padding-left: 10px;
+                padding-bottom: 3px;
+                width: 700px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            .e_header_3 {
+                width: 24px;
+                min-width: 24px;
+                background-color: #8C4646;
+                cursor:pointer;
+                color: black;
+            }
+            
+            .e_header_3:hover {
+                color: white;
+            }
+            .e_trush {
+                padding-left: 9px;
+                padding-bottom: 3px;
+                font-size: 16px;
+                display: block;
+                -moz-user-select: none;
+
+            }
+
+
+            .e_comments{
+                border-radius: 5px;
+                margin: 10px 10px 10px 30px;
+                padding: 10px;
+                display: block;
+                background: #EBEBEB;
+
+            }
+            .e_body {
+                display: block; 
+                background: white;
+                padding: 10px;
+            }
+            
+            .separator {
+                display: block;
+                width: 100%;
+                height: 5px;
+                background-color: #D8D8D8;
+                    
+            }
+            
+            
+            /*For simple*/
+            
+            .e_tr_simple0 {
+                background-color: #FFFFFF;
+            }
+            
+            .e_tr_simple1 {
+                background-color: #F6F6F6;
+            }
+            .e_body_simple {
+                padding: 10px;
+            }
+            
+
+            .e_trush_simple{
+                position: absolute;
+                right: 0px;
+                background-color: #8C4646;
+                padding-left: 9px;
+                padding-right: 8px;
+                padding-bottom: 3px;
+                font-size: 16px;
+                display: block;
+                -moz-user-select: none;
+                cursor:pointer;
+            }
+            
+            .e_trush_simple:hover{
+                 color: white;
+            }
+            
+            
+        </style>
+
+	<script src="../../resource/jquery2.js"></script>
+        <script  type="text/javascript">
+            function loadData() {
+                $.getJSON("content.json", function (data) {
+                    document.title = data.category.categoryName;
+                    if (data.category.isNotDetailed==="true"){
+                        for (var i = 0, max = data.entries.length; i < max; i += 1) {
+                            var html = '<tr class="e_tr_simple'+i%2+'" id="e_tr_'+data.entries[i].id+'" >' +
+                                          '<td>' +
+                                              '<div class="e_trush_simple" id="e_trush_'+data.entries[i].id+'">&times</div>'+
+                                              '<div class="e_body_simple">'+data.entries[i].data+'</div>'+
+                                          '</td>'+   
+                                        '</tr>'; 
+                                
+                             $("#entries").append(html);    
+                                          
+                        }
+                    }else{
+                        for (var i = 0, max = data.entries.length; i < max; i += 1) {
+                        
+                        var timeBlock = '<td class="e_header_1"><div class="e_time"></div></td>';
+                        if (data.entries[i].time !==undefined){
+                            timeBlock = '<td class="e_header_1"><div class="e_time">'+data.entries[i].time+'</div></td>';
+                        }
+
+                        var titleBlock; 
+                        if ((data.entries[i].title!==undefined)||(data.entries[i].title.trim()!=='')){
+                            if (data.entries[i].url!==undefined){
+                                titleBlock = '<td class="e_header_2"><div id="e_title_'+data.entries[i].id+'" class="e_title"><a href="'+data.entries[i].url+'">'+data.entries[i].title+'</a></div></td>'; 
+                            }else{
+                                titleBlock = '<td class="e_header_2"><div id="e_title_'+data.entries[i].id+'" class="e_title">'+data.entries[i].title+'</div></td>'; 
+                            }
+                        }else {
+                            if (data.entries[i].url!==undefined){
+                                titleBlock = '<td class="e_header_2"><div id="e_title_'+data.entries[i].id+'" class="e_title"><a href="'+data.entries[i].url+'">Link</a></div></td>'; 
+                            }else{
+                                titleBlock = '<td class="e_header_2"><div id="e_title_'+data.entries[i].id+'" class="e_title"></div></td>'; 
+                            }
+                        }
+                        
+                        var commentsBlock='';
+                        if (data.entries[i].comments!==undefined){
+                            if ((data.entries[i].comments.trim()!=='')){
+                               commentsBlock ='<div id="e_comments_'+data.entries[i].id+'" class="e_comments">'+data.entries[i].comments+'</div>';
+                            }
+                        }
+                        
+                        var html = '<tr id="e_tr_'+data.entries[i].id+'" >' +
+                                        '<td>' +
+                                            '<table class="e_header">' +
+                                                timeBlock +
+                                                titleBlock +
+                                                '<td class="e_header_3"><div id="e_trush_'+data.entries[i].id+'" class="e_trush">&times</div></td>' +
+                                            '</table>'+
+                                            commentsBlock +
+                                            '<div id="e_body_'+data.entries[i].id+'" class="e_body">'+data.entries[i].data+'</div>'+
+                                            '<div class="separator"> </div>' +
+                                        '</td>'+   
+                                   '</tr>';
+                        $("#entries").append(html);
+                        }}
+                });
+            }
+        </script>
+        <script>
+            $(document).ready(loadData);
+        </script>
+
+
+
+
+    </head>
+    <body>
+        <div class="content">
+            <table id="entries">
+            </table>
+        </div>
+    </body>
+</html>
